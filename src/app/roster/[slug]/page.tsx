@@ -5,9 +5,12 @@ export function generateStaticParams() {
   return players.map((player) => ({ slug: player.slug }));
 }
 
-
-export default function PlayerPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function PlayerPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const player = players.find((item) => item.slug === slug);
 
   if (!player) return notFound();
