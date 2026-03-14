@@ -1,6 +1,12 @@
 import { notFound } from "next/navigation";
 import { events } from "@/data/events";
 
+export function generateStaticParams() {
+  return events.map((event) => ({
+    slug: event.slug,
+  }));
+}
+
 export default async function EventPage({
   params,
 }: {
