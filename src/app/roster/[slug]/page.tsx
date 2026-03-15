@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { players } from "@/data/roster";
+import { getAllPlayers, getPlayerBySlug } from "@/lib/content";
 
 export function generateStaticParams() {
-  return players.map((player) => ({
+  return getAllPlayers().map((player) => ({
     slug: player.slug,
   }));
 }
@@ -13,7 +13,7 @@ export default async function PlayerPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const player = players.find((item) => item.slug === slug);
+  const player = getPlayerBySlug(slug);
 
   if (!player) return notFound();
 
@@ -21,8 +21,9 @@ export default async function PlayerPage({
     <section className="mx-auto max-w-5xl px-6 py-16">
       <div className="grid gap-8 md:grid-cols-[320px_1fr]">
         <div className="aspect-[4/5] rounded-3xl bg-slate-200" />
+
         <div>
-          <div className="text-sm font-bold uppercase tracking-[0.2em] text-[#003DA5]">
+          <div className="text-sm font-bold uppercase tracking-[0.2em] text-brand">
             Player Profile
           </div>
           <h1 className="mt-2 text-4xl font-black">
@@ -37,7 +38,7 @@ export default async function PlayerPage({
               Hometown: {player.hometown}
             </div>
             <div className="rounded-2xl bg-white p-4">
-              Previous Team: {player.previousTeam ?? "TBD"}
+              Previous Team: {player.previous_team ?? "TBD"}
             </div>
             <div className="rounded-2xl bg-white p-4">
               Shoots: {player.shoots ?? "TBD"}
@@ -47,7 +48,7 @@ export default async function PlayerPage({
             </div>
           </div>
 
-          <div className="mt-8 rounded-3xl bg-white p-6">
+          <div className="mt-8 rounded-3xl bg-white p-6 shadow-soft">
             <h2 className="text-2xl font-black">Bio</h2>
             <p className="mt-4 leading-7 text-slate-600">
               {player.bio ?? "Player biography coming soon."}

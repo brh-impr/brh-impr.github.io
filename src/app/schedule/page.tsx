@@ -1,12 +1,21 @@
-import { games } from '@/data/schedule';
+import { getSchedule } from "@/lib/content";
 
 export default function SchedulePage() {
+  const schedule = getSchedule();
+  const games = schedule.games;
+
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
       <div className="max-w-3xl">
-        <div className="text-sm font-bold uppercase tracking-[0.2em] text-brand">Schedule</div>
-        <h1 className="mt-2 text-4xl font-black tracking-tight">Season schedule and results</h1>
-        <p className="mt-3 text-slate-600">Follow upcoming games, recent results, and rink details.</p>
+        <div className="text-sm font-bold uppercase tracking-[0.2em] text-brand">
+          Schedule
+        </div>
+        <h1 className="mt-2 text-4xl font-black tracking-tight">
+          Season schedule and results
+        </h1>
+        <p className="mt-3 text-slate-600">
+          Follow upcoming games, recent results, and rink details.
+        </p>
       </div>
 
       <div className="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
@@ -22,12 +31,14 @@ export default function SchedulePage() {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {games.map((game) => (
-              <tr key={game.id}>
+              <tr key={`${game.date}-${game.opponent}`}>
                 <td className="px-5 py-4">{game.date}</td>
                 <td className="px-5 py-4 font-semibold">{game.opponent}</td>
-                <td className="px-5 py-4">{game.location} · {game.rink}</td>
+                <td className="px-5 py-4">
+                  {game.location} · {game.rink}
+                </td>
                 <td className="px-5 py-4">{game.time}</td>
-                <td className="px-5 py-4">{game.result ?? 'Upcoming'}</td>
+                <td className="px-5 py-4">{game.result || "Upcoming"}</td>
               </tr>
             ))}
           </tbody>

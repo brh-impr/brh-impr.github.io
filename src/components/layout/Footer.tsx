@@ -13,6 +13,7 @@ export function Footer() {
           <div className="font-bold">Explore</div>
           <div className="mt-3 grid gap-2 text-sm text-slate-600">
             <Link href="/schedule">Schedule</Link>
+            <Link href="/news">News</Link>
             <Link href="/roster">Roster</Link>
             <Link href="/recruiting">Recruiting</Link>
             <Link href="/events">Events</Link>
