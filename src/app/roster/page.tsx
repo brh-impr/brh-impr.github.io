@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getAllPlayers } from "@/lib/content";
+import { getPlayersFromSheet } from "@/lib/content";
 
-export default function RosterPage() {
-  const players = getAllPlayers();
+export default async function RosterPage() {
+  const players = await getPlayersFromSheet();
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">

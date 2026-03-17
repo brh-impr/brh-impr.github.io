@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
-import { getAllPlayers, getPlayerBySlug } from "@/lib/content";
+import { getPlayersFromSheet } from "@/lib/content";
 
-export function generateStaticParams() {
-  return getAllPlayers().map((player) => ({
+export async function generateStaticParams() {
+  const players = await getPlayersFromSheet();
+
+  return players.map((player) => ({
     slug: player.slug,
   }));
 }
@@ -13,7 +15,8 @@ export default async function PlayerPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const player = getPlayerBySlug(slug);
+  const players = await getPlayersFromSheet();
+  const player = players.find((item) => item.slug === slug);
 
   if (!player) return notFound();
 

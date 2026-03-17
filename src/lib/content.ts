@@ -296,3 +296,29 @@ export async function getScheduleFromSheet(): Promise<
     result: game.result || null,
   }));
 }
+
+export async function getPlayersFromSheet(): Promise<Player[]> {
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSzKcL42kKLA681-_-upPJhPAV1cJ_U1DbhqD3jmjhLciDVXvE1oI7Cnuva9aSH7ONZ-sUciWes85dG/pub?gid=1762913809&single=true&output=csv";
+
+  const res = await fetch(url, { cache: "force-cache" });
+  const text = await res.text();
+
+  const parsed = Papa.parse(text, {
+    header: true,
+    skipEmptyLines: true,
+  });
+
+  return parsed.data.map((player: any) => ({
+    name: player.name,
+    slug: player.slug,
+    number: Number(player.number),
+    position: player.position,
+    year: player.year,
+    hometown: player.hometown,
+    shoots: player.shoots || undefined,
+    previous_team: player.previous_team || undefined,
+    major: player.major || undefined,
+    image: player.image || undefined,
+    bio: player.bio || undefined,
+  }));
+}
